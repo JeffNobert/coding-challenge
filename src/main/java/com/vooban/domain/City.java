@@ -31,7 +31,15 @@ public class City {
     @NotNull
     private String stateprov;
 
+    @Transient
+    private float rank;
+
     private City() { }
+
+    public City(int id)
+    {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -79,5 +87,13 @@ public class City {
 
     public void setStateprov(String stateprov) {
         this.stateprov = stateprov;
+    }
+
+    public float getRank() {
+        return rank;
+    }
+
+    public void setRank(float rank) {
+        this.rank = rank;
     }
 }
