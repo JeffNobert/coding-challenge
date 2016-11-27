@@ -22,7 +22,7 @@ public class CityServiceImpl implements CityService
     }
 
     @Override
-    public Iterable<City> list(String criteria, Double latitude, Double longitude)
+    public List<City> list(String criteria, Double latitude, Double longitude)
     {
         List<City> cities = cityRepository.findByNameContaining(criteria);
         return scoreResults(cities, criteria, latitude, longitude);
@@ -43,7 +43,7 @@ public class CityServiceImpl implements CityService
         for(City city : cities)
         {
             float rank = scoreNameMatch(city.getName(), criteria);
-            city.setRank(rank);
+            city.setScore(rank);
             rankedCities.add(city);
 
             if(hasLatitude || hasLongitude)
@@ -61,7 +61,7 @@ public class CityServiceImpl implements CityService
 
             for (City rankedCity : rankedCities) {
                 float score = scoreCoordinates(distances.get(rankedCity.getId()), maxDistance);
-                rankedCity.setRank(rankedCity.getRank() * score);
+                rankedCity.setScore(roundScore(rankedCity.getScore() * score));
             }
         }
 

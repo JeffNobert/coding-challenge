@@ -2,7 +2,9 @@ package com.vooban.controller;
 
 import com.vooban.domain.City;
 import com.vooban.service.CityService;
-import com.vooban.service.CityServiceImpl;
+
+import com.vooban.web.Adapters.CityAdapter;
+import com.vooban.web.SuggestionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,12 +28,16 @@ public class CityController
     }
 
     @GetMapping("/suggestions")
-    public Iterable<City> getSuggestedCities(
+    public SuggestionsDTO getSuggestedCities(
             @RequestParam(name = "q") String criteria,
             @RequestParam(name = "lat", required = false) Double latitude,
             @RequestParam(name = "long", required = false) Double longitude)
     {
-        Iterable<City> cities = cityService.list(criteria, latitude, longitude);
-        return cities;
+        List<City> cities = cityService.list(criteria, latitude, longitude);
+
+        SuggestionsDTO suggestionsDTO = new SuggestionsDTO();
+        suggestionsDTO.setSuggestions(CityAdapter.toDTOList(cities));
+
+        return suggestionsDTO;
     }
 }

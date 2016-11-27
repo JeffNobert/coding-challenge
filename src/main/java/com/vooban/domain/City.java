@@ -33,7 +33,7 @@ public class City implements Comparable<City>
     private String stateprov;
 
     @Transient
-    private float rank;
+    private float score;
 
     private City() { }
 
@@ -90,18 +90,24 @@ public class City implements Comparable<City>
         this.stateprov = stateprov;
     }
 
-    public float getRank() {
-        return rank;
+    public float getScore() {
+        return score;
     }
 
-    public void setRank(float rank) {
-        this.rank = rank;
+    public void setScore(float score) {
+        this.score = score;
+    }
+
+
+    public String getFullName()
+    {
+        return this.getName() + ", " + this.getStateprov() + ", " + this.getCountry();
     }
 
     @Override
     public int compareTo(City city) {
-        return this.getRank() < city.getRank() ? -1
-                : this.getRank() > city.getRank() ? 1
+        return this.getScore() < city.getScore() ? -1
+                : this.getScore() > city.getScore() ? 1
                 : 0;
     }
 }
