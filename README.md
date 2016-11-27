@@ -1,3 +1,8 @@
+#Solution du challenge
+J'ai changé la db pour utiliser une bd mémoire(H2) pour rouler le backend (Complèté)
+
+Fontend en Thymeleaf pour faciliter l'utilisation (en processus)
+
 #Introduction
 Bienvenue au Coding-Challenge de Vooban.
 
