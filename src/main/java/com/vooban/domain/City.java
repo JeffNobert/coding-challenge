@@ -8,7 +8,8 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "Cities")
-public class City {
+public class City implements Comparable<City>
+{
 
     @Id
     @GeneratedValue
@@ -95,5 +96,12 @@ public class City {
 
     public void setRank(float rank) {
         this.rank = rank;
+    }
+
+    @Override
+    public int compareTo(City city) {
+        return this.getRank() < city.getRank() ? -1
+                : this.getRank() > city.getRank() ? 1
+                : 0;
     }
 }

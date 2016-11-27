@@ -2,6 +2,7 @@ package com.vooban.controller;
 
 import com.vooban.domain.City;
 import com.vooban.service.CityService;
+import com.vooban.service.CityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +31,7 @@ public class CityController
             @RequestParam(name = "lat", required = false) Double latitude,
             @RequestParam(name = "long", required = false) Double longitude)
     {
-        return cityService.list(criteria);
+        Iterable<City> cities = cityService.list(criteria, latitude, longitude);
+        return cities;
     }
 }
