@@ -1,7 +1,13 @@
 #Solution du challenge
 J'ai changé la db pour utiliser une bd mémoire(H2) pour rouler le backend (Complèté)
+Resterais à faire les tests unitaires pour s'assurer de garder le bon fonctionnement
+lors itération futur.
 
 Fontend en Thymeleaf pour faciliter l'utilisation (en processus)
+Pour ce rendre au front end http://localhost:8080/cities/suggestions?
+Il reste le search avec l'input à finir et la validation des 3 caractères
+Si dans le url on entre un critère "q" il va en tenir compte dans la recherche.
+
 
 #Introduction
 Bienvenue au Coding-Challenge de Vooban.
