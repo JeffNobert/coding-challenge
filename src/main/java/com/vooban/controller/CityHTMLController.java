@@ -9,8 +9,10 @@ import com.vooban.web.SuggestionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -23,6 +25,7 @@ import java.util.List;
  * Created by jnobert on 2016-11-237.
  */
 @Controller
+@RequestMapping("/cities")
 public class CityHTMLController {
     private CityService cityService;
 
@@ -32,26 +35,15 @@ public class CityHTMLController {
     }
 
     @GetMapping("/suggestions")
-    public SuggestionsDTO getSuggestedCities(
-            @RequestParam(name = "q") String criteria,
-            @RequestParam(name = "lat", required = false) Double latitude,
-            @RequestParam(name = "long", required = false) Double longitude) {
-        List<City> cities = cityService.list(criteria, latitude, longitude);
+    public String getSuggestedCities(@RequestParam(name = "q") String criteria, Model model)
+    {
+        List<City> cities = cityService.list(criteria, null, null);
 
         if (cities.isEmpty()) {
             throw new SuggestionNotFoundException("No city suggestions found with criteria: " + criteria);
         }
-
-        SuggestionsDTO suggestionsDTO = new SuggestionsDTO();
-        suggestionsDTO.setSuggestions(CityAdapter.toDTOList(cities));
-
-        return suggestionsDTO;
-    }
-
-    @ExceptionHandler(SuggestionNotFoundException.class)
-    public void handleSuggestionNotFound(SuggestionNotFoundException exception, HttpServletResponse response) throws IOException
-    {
-        response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
+        model.addAttribute("suggestions", cities);
+        return "views/list";
 
     }
 }
