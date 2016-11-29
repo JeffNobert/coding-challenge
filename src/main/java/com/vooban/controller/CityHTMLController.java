@@ -1,28 +1,19 @@
 package com.vooban.controller;
 
 import com.vooban.domain.City;
-import com.vooban.exception.SuggestionNotFoundException;
+import com.vooban.domain.SearchCriteria;
 import com.vooban.service.CityService;
 
-import com.vooban.web.Adapters.CityAdapter;
-import com.vooban.web.SuggestionsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jnobert on 2016-11-237.
+ * Created by jnobert on 2016-11-23.
  */
 @Controller
 @RequestMapping("/cities")
@@ -34,14 +25,20 @@ public class CityHTMLController {
         this.cityService = cityService;
     }
 
-    @GetMapping("/suggestions")
-    public String getSuggestedCities(@RequestParam(name = "q") String criteria, Model model)
+    @GetMapping("/")
+    public String getSearchPage(Model model)
     {
-        List<City> cities = cityService.list(criteria, null, null);
+        model.addAttribute("suggestions", new ArrayList<>());
+        return "views/list";
 
-        if (cities.isEmpty()) {
-            throw new SuggestionNotFoundException("No city suggestions found with criteria: " + criteria);
-        }
+    }
+
+    @PostMapping("/suggestions")
+    public String getSuggestedCities(@ModelAttribute SearchCriteria criteria, Model model)
+    {
+
+        List<City> cities = cityService.list("London", null, null, 0);
+
         model.addAttribute("suggestions", cities);
         return "views/list";
 

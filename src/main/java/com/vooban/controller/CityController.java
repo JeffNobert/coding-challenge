@@ -33,8 +33,9 @@ public class CityController {
     public SuggestionsDTO getSuggestedCities(
             @RequestParam(name = "q") String criteria,
             @RequestParam(name = "lat", required = false) Double latitude,
-            @RequestParam(name = "long", required = false) Double longitude) {
-        List<City> cities = cityService.list(criteria, latitude, longitude);
+            @RequestParam(name = "long", required = false) Double longitude,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page) {
+        List<City> cities = cityService.list(criteria, latitude, longitude, page);
 
         if (cities.isEmpty()) {
             throw new SuggestionNotFoundException("No city suggestions found with criteria: " + criteria);

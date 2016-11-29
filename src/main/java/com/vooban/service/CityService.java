@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface CityService
 {
-    List<City> list(String criteria, Double latitude, Double longitude);
+    List<City> list(String criteria, Double latitude, Double longitude, int page);
 }

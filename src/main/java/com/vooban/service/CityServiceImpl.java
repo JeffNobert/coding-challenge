@@ -3,6 +3,7 @@ package com.vooban.service;
 import com.vooban.domain.City;
 import com.vooban.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
 public class CityServiceImpl implements CityService
 {
     private CityRepository cityRepository;
+    final static private int PAGE_SIZE = 25;
 
     @Autowired
     public CityServiceImpl(CityRepository cityRepository)
@@ -22,9 +24,9 @@ public class CityServiceImpl implements CityService
     }
 
     @Override
-    public List<City> list(String criteria, Double latitude, Double longitude)
+    public List<City> list(String criteria, Double latitude, Double longitude, int page)
     {
-        List<City> cities = cityRepository.findByNameContaining(criteria);
+        List<City> cities = cityRepository.findByNameContaining(criteria, new PageRequest(0, PAGE_SIZE));
         return scoreResults(cities, criteria, latitude, longitude);
     }
 

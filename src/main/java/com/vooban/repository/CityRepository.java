@@ -4,6 +4,8 @@ import com.vooban.domain.City;
 
 
 import java.util.List;
+
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface CityRepository extends CrudRepository<City, Integer>
 {
 
-    List<City> findByNameContaining(String criteria);
+    List<City> findByNameContaining(String criteria, Pageable pageable);
 
 
 }
